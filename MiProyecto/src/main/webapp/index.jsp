@@ -11,6 +11,7 @@
   </head>
 <body>
     <div class="container">
+    <jsp:include page="/WEB-INF/jsp/include/navbar.jspf"></jsp:include>  
 	<%	java.util.Date d = new java.util.Date();	%>
 	<p><%=java.text.DateFormat.getDateInstance().format(d)%></p>
 	<!-- c:out -->

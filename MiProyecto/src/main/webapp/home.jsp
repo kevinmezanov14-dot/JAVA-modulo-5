@@ -11,6 +11,7 @@
   </head>
   <body>
 <h1>Hello, world <c:out value="${nombreUsuario}"></c:out> !!</h1>
+<jsp:include page="/WEB-INF/jsp/include/navbar.jspf"></jsp:include>
     <c:choose>
 		<c:when test="${ edadUsuario >=18}">
 			<h2>Eres mayor de edad en choose</h2>

@@ -12,10 +12,10 @@
       crossorigin="anonymous">
   </head>
   <body>
-
     <div class="container">
+    <jsp:include page="/WEB-INF/jsp/include/navbar.jspf"></jsp:include>
       <h2 class="mt-4 mb-3">Registro de Usuario</h2>
-      <form action="Registrar" method="POST">
+ 		<form action="${pageContext.request.contextPath}/Registrar" method="post">
         <div class="mb-3">
           <label for="nick" class="form-label">Nick Name</label>
           <input type="text" class="form-control" id="nick" name="nick" required>

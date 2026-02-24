@@ -1,4 +1,4 @@
-package cl.Servelets;
+package cl.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,9 +42,16 @@ public class Registrar extends HttpServlet {
         System.out.println("Email: "    + email);
         System.out.println("Password: " + password);
 
-        // Aquí puedes agregar la lógica para guardar en base de datos
-
-        // Redirige de vuelta al formulario (o a otra página)
-        response.sendRedirect(request.getContextPath() + "/registro.jsp");
-    }
+        // lógica para guardar en base de datos
+        
+        
+        // enviar datos al frontend
+		request.setAttribute("nick", nick);
+		request.setAttribute("email", email);
+		request.setAttribute("password", password);
+		
+        // Redirige a la pagina login
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
+    
 }
