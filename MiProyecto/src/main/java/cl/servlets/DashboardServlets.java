@@ -2,60 +2,35 @@ package cl.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
+import jakarta.servlet.http.*;
 import java.io.IOException;
 
-/**
- * Servlet implementation class DashboardServlets
- */
 @WebServlet("/dashboard")
 public class DashboardServlets extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DashboardServlets() {
-        super();
-        // TODO Auto-generated constructor stub
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+
+        // Verificar si existe sesión y si el usuario está autenticado
+        if(session == null || session.getAttribute("emailSession") == null){
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        // Pasar los atributos de sesión al request para el JSP
+        request.setAttribute("usuario", session.getAttribute("usuario"));
+        request.setAttribute("email", session.getAttribute("emailSession"));
+        request.setAttribute("edad", session.getAttribute("edad"));
+        request.setAttribute("sexo", session.getAttribute("sexo"));
+
+        request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		  HttpSession session = request.getSession();
-		  //Object emailObject = session.getAttribute("emailSession");
-		  String emailSession = (String) session.getAttribute("emailSession");
-		  //controlar acceso a rutas o paginas sin login
-		  if(emailSession == null || emailSession.isEmpty()) {
-			  request.getRequestDispatcher("login.jsp").forward(request, response);
-		  }
-		  Cookie cookie = new Cookie("Nick", "Kevin");
-		  Cookie color = new Cookie ("Color", "Azul");
-		  
-		  cookie.setMaxAge(60*60*3); // 3 horas
-		  color.setMaxAge(60);
-		  response.addCookie(cookie);
-		  response.addCookie(color);
-		  
-		  request.getRequestDispatcher("dashboard.jsp").forward(request, response);
-
-
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
 }

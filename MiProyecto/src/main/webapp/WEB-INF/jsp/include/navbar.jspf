@@ -1,30 +1,57 @@
-  <nav class="navbar navbar-expand-lg bg-body-tertiary rounded"
-			aria-label="Thirteenth navbar example">
-			<div class="container-fluid">
-				<button class="navbar-toggler" type="button"
-					data-bs-toggle="collapse" data-bs-target="#navbarsExample11"
-					aria-controls="navbarsExample11" aria-expanded="false"
-					aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse d-lg-flex"
-					id="navbarsExample11">
-					<a class="navbar-brand col-lg-3 me-0" href="/">Sistema</a>>
-					<ul class="navbar-nav col-lg-6 justify-content-lg-center">
-						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="dashboard">Dashboard</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-						<li class="nav-item"><a class="nav-link disabled"
-							aria-disabled="true">Disabled</a></li>
-						<li class="nav-item dropdown"><a
-							class="nav-link dropdown-toggle" href="#"
-							data-bs-toggle="dropdown" aria-expanded="false">Acceso al sistema</a>
-							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="login">Login</a></li>
-								<li><a class="dropdown-item" href="Registrar">Registro</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+
+<%
+    String contextPath = request.getContextPath();
+
+    String navUsuario = (String) session.getAttribute("usuario");
+    if (navUsuario == null) {
+        navUsuario = "Usuario";
+    }
+
+    String currentPage = request.getRequestURI();
+%>
+
+<nav class="navbar">
+    <div class="navbar-container">
+
+        <a href="<%= contextPath %>/dashboard" class="navbar-brand">
+            🚀 Sistema
+        </a>
+
+        <ul class="navbar-menu">
+            <li>
+                <a href="<%= contextPath %>/dashboard"
+                   class="<%= currentPage.contains("dashboard") ? "active" : "" %>">
+                   📊 Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="<%= contextPath %>/Cookie"
+                   class="<%= currentPage.contains("Cookie") ? "active" : "" %>">
+                   🍪 Cookies
+                </a>
+            </li>
+
+            <li>
+                <a href="#" onclick="return false;">⚙️ Configuración</a>
+            </li>
+
+            <li>
+                <a href="#" onclick="return false;">📈 Reportes</a>
+            </li>
+        </ul>
+
+        <div class="navbar-user">
+            <div class="user-avatar">
+                <%= navUsuario.length() > 0 ? navUsuario.substring(0,1).toUpperCase() : "?" %>
+            </div>
+
+            <span class="user-name"><%= navUsuario %></span>
+
+            <a href="<%= contextPath %>/logout" class="logout-btn">
+                🚪 Salir
+            </a>
+        </div>
+
+    </div>
+</nav>
